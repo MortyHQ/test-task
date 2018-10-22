@@ -5,7 +5,11 @@ export  class ObservableContactsStore {
     contacts = [];
 
     constructor() {
-        mobx.autorun(() => console.log("success")/*this.addContacts("Superman","super-man@dc.com")*/)
+        mobx.autorun(() => {
+            this.addContacts("Superman","super-man@dc.com");
+            this.addContacts("Batman ","bat.man@dc.com");
+            this.addContacts("Gamora","gamora-the-guard@marvel.com");
+        })
     }
 
     addContacts(name,email){
@@ -14,6 +18,8 @@ export  class ObservableContactsStore {
             email: email
         })
     }
+
+
 }
 decorate(ObservableContactsStore,{
     contacts:observable

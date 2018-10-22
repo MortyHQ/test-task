@@ -24,15 +24,40 @@ body {
     font: bold 22px 'Arial';
 }
 .table{
-    width: 25%;
+    width: 30%;
 }
 .table h5{
     font: bold 16px 'Arial';
-    text-decoration: underline dotted;
     width: fit-content;
 }
 .table h5:hover{
     cursor: pointer;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 2px dotted black;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    color: black;
+    width: fit-content;
+    background: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    border: 1px solid black;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 105%;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    font: 14px 'Arial';
 }
 .table h6{
     font: 14px 'Arial';
