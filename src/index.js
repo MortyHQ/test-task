@@ -28,15 +28,15 @@ const CreationButton = observer(class CreationButton extends Component{
 const DeleteButton = observer(class DeleteButton extends Component{
     render() {
         const store = this.props.store;
-        const key = this.props.key;
+        const idx = this.props.idx;
 
-        function deleteContact(key) {
-            store.contacts.splice(key,1);
+        function deleteContact(idx) {
+            store.contacts.splice(idx,1);
         }
 
         return (
             <div className={"block del"}>
-                <button className={"delete"} onClick={() => deleteContact(key)}>X</button>
+                <button className={"delete"} onClick={() => deleteContact(idx)}>X</button>
             </div>
         );
     }
@@ -46,7 +46,7 @@ const TableRow = observer(class TableRow extends Component{
     render() {
         const contact = this.props.contact;
         const store = this.props.store;
-        const key = this.props.key;
+        const idx = this.props.idx;
 
         let name = contact[0];
         let email = contact[1];
@@ -69,7 +69,7 @@ const TableRow = observer(class TableRow extends Component{
                     <h6>{email}</h6>
                     </div>
                 </div>
-                <DeleteButton store = {store} key={key}/>
+                <DeleteButton store = {store} idx={idx}/>
             </div>
         );
     }
@@ -81,7 +81,7 @@ const Table = observer(class Table extends Component{
 
         function getContact(value,index) {
             var contact = [value.name,value.email];
-            return <TableRow contact = {contact} key = {index} store = {store}/>;
+            return <TableRow contact = {contact} key = {index} store = {store} idx={index}/>;
         }
 
         return (
