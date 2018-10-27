@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {observer} from "mobx-react";
 import {ObservableContactsStore} from "./ObservableContactsStore";
 import './index.css';
-import  {db} from "./firestore";
+import {db} from "./firestore";
 
 const contactstore = new ObservableContactsStore();
 const searchstore = new ObservableContactsStore();
@@ -11,6 +11,7 @@ const searchstore = new ObservableContactsStore();
 const CreationButton = observer(class CreationButton extends Component{
     render() {
         const store = this.props.store;
+
         function addNewContact() {
             var newName = prompt("Please enter contact name:", "Harry Potter");
             var newEmail = prompt("Please enter contact email:", "HarryPotter@hogwarts.com");
@@ -23,7 +24,6 @@ const CreationButton = observer(class CreationButton extends Component{
                 .catch(function(error) {
                     console.error("Error adding document: ", error);
                 });
-
         }
 
         return (
@@ -36,9 +36,9 @@ const CreationButton = observer(class CreationButton extends Component{
 
 const DeleteButton = observer(class DeleteButton extends Component{
     render() {
-        const store = this.props.store;
-        const idx = this.props.idx;
+        const {store, idx} = this.props;
         const docRefId = store.contacts[idx].docRefId;
+
         function deleteContact(idx) {
             store.contacts.splice(idx,1);
             db.collection("contacts").doc(docRefId).delete();
@@ -54,9 +54,7 @@ const DeleteButton = observer(class DeleteButton extends Component{
 
 const TableRow = observer(class TableRow extends Component{
     render() {
-        const contact = this.props.contact;
-        const store = this.props.store;
-        const idx = this.props.idx;
+        const {store, idx} = this.props;
 
         function onEdit(){
             store.contacts[idx].name = prompt("Please enter new contact name:", store.contacts[idx].name);
@@ -90,13 +88,7 @@ const TableRow = observer(class TableRow extends Component{
 
 class Search extends Component{
     render() {
-        const store = this.props.store;
-        const result = this.props.result;
-
-        /*function getFoundContact(value,index) {
-            let contact = [value.name,value.email];
-            return <TableRow contact = {contact} key = {index} store = {result} idx={index}/>;
-        }*/
+        const {store, result} = this.props;
 
         return (
             <div className={"search-box clear-fix"}>
@@ -106,6 +98,7 @@ class Search extends Component{
                 <input type={"text"} className={"left"} onClick={setupStarter}/>
             </div>
         );
+
         function setupUpdater(){
             let input=document.getElementsByTagName('input')[0]
                 , timeout=null;
@@ -115,6 +108,7 @@ class Search extends Component{
                    if ((value.name.indexOf(input.value) >= 0) || (value.email.indexOf(input.value) >= 0)){
                         result.addContacts(value.name,value.email,value.docRefId);
                     }
+                    return 0;
                 })
             }
             function eventHandler(){
@@ -135,14 +129,9 @@ const Table = observer(class Table extends Component{
     render() {
         const store = this.props.store;
 
-        function getContact(value,index) {
-            var contact = [value.name,value.email];
-            return <TableRow contact = {contact} key = {index} store = {store} idx={index}/>;
-        }
-
         return (
             <div className={'table'}>
-                {store.contacts.map(getContact)}
+                {store.contacts.map((value, index) => <TableRow key={index} store={store} idx={index}/>)}
                 <CreationButton store = {store}/>
             </div>
         );
