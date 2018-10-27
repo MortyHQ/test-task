@@ -19,12 +19,36 @@ body {
     margin: 0;
     padding: 0;
 }
-
+.main{
+    width: 300px;
+    margin: 10px;
+}
 .main h4{
     font: bold 22px 'Arial';
+    margin-bottom: 10px;
+    text-align: center;
+}
+.search-box{
+    margin-bottom: 10px;
+    border: 1px solid;
+    width: 300px;
+    font: bold 22px 'Arial';
+}
+.search-box input{
+    width: 272px;
+    height: 29.6px;
+}
+.search-box div{
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+.left{
+    float: left;
 }
 .table{
-    width: 30%;
+    width: 300px;
 }
 .table h5{
     font: bold 16px 'Arial';
@@ -74,12 +98,18 @@ body {
     clear: both;
 }
 .row{
-    border: solid;
+    border: 1px solid;
+}
+.row:first-child{
+    border-bottom: none;
+}
+.row:last-child{
+    border-top: none;
 }
 .creation{
     cursor: pointer;
     text-align: center;
-    border: solid;
+    border: 1px solid;
     border-top: none;
 }
 .del{

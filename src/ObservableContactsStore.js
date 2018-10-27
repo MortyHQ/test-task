@@ -1,21 +1,25 @@
 import * as mobx from "mobx";
 import {observable, decorate} from "mobx";
+import {db} from "./firestore";
 
 export  class ObservableContactsStore {
     contacts = [];
 
     constructor() {
         mobx.autorun(() => {
-            this.addContacts("Superman","super-man@dc.com");
-            this.addContacts("Batman ","bat.man@dc.com");
-            this.addContacts("Gamora","gamora-the-guard@marvel.com");
+            db.collection("contacts").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    this.addContacts(doc.data().name,doc.data().email,doc.id)
+                });
+            });
         })
     }
 
-    addContacts(name,email){
+    addContacts(name,email,docRefId){
         this.contacts.push({
             name: name,
-            email: email
+            email: email,
+            docRefId: docRefId
         })
     }
 
