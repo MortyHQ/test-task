@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {contactstore} from "./index";
-import './index.css';
+import {contactstore} from "./App";
 import {db} from "./firestore";
 import {Link} from "react-router-dom";
 
