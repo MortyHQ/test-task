@@ -123,3 +123,6 @@ body {
     background: none;
     cursor: pointer;
 }
+input{
+    border: 1px solid;
+}

@@ -2,45 +2,35 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {observer} from "mobx-react";
 import {ObservableContactsStore} from "./ObservableContactsStore";
-import './index.css';
+import {NewContactForm,EditContactForm} from "./New(Edit)Contact"
 import {db} from "./firestore";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import './index.css';
 
 const contactstore = new ObservableContactsStore();
 const searchstore = new ObservableContactsStore();
 
-const CreationButton = observer(class CreationButton extends Component{
+class CreationButton extends Component{
     render() {
-        const store = this.props.store;
-
-        function addNewContact() {
-            var newName = prompt("Please enter contact name:", "Harry Potter");
-            var newEmail = prompt("Please enter contact email:", "HarryPotter@hogwarts.com");
-            db.collection("contacts").add({
-                name: newName,
-                email: newEmail
-            }).then(function (docRef) {
-                store.addContacts(newName,newEmail,docRef.id);
-            })
-                .catch(function(error) {
-                    console.error("Error adding document: ", error);
-                });
-        }
-
         return (
-            <div className={"creation"} onClick={addNewContact}>
-                <h3> + </h3>
-            </div>
+                <div className={"creation"}>
+                    <div>
+                        <Link to={"/new"}>
+                            <h3> + </h3>
+                        </Link>
+                    </div>
+                </div>
         );
     }
-});
+}
 
-const DeleteButton = observer(class DeleteButton extends Component{
+class DeleteButton extends Component {
     render() {
         const {store, idx} = this.props;
         const docRefId = store.contacts[idx].docRefId;
 
         function deleteContact(idx) {
-            store.contacts.splice(idx,1);
+            store.contacts.splice(idx, 1);
             db.collection("contacts").doc(docRefId).delete();
         }
 
@@ -50,29 +40,25 @@ const DeleteButton = observer(class DeleteButton extends Component{
             </div>
         );
     }
-});
+}
 
 const TableRow = observer(class TableRow extends Component{
     render() {
         const {store, idx} = this.props;
 
-        function onEdit(){
-            store.contacts[idx].name = prompt("Please enter new contact name:", store.contacts[idx].name);
-            store.contacts[idx].email = prompt("Please enter new contact email:", store.contacts[idx].email);
-            db.collection("contacts").doc(store.contacts[idx].docRefId).set({
-                name: store.contacts[idx].name,
-                email: store.contacts[idx].email
-            }).catch(function(error) {
-                    console.error("Error editing document: ", error);
-                });
-        }
 
         return (
             <div className={"row clear-fix"}>
                 <div className={"block"}>
                     <div>
-                    <h5 className={"tooltip"} onClick={ () => onEdit()}>
-                        {store.contacts[idx].name}
+                    <h5 className={"tooltip"}>
+                        <Link to={{
+                            pathname: "/edit",
+                            state: {
+                                idx: idx
+                            }}}>
+                            {store.contacts[idx].name}
+                        </Link>
                         <span className={"tooltip-text"}> click to edit </span>
                     </h5>
                     </div>
@@ -150,7 +136,34 @@ class AddressBook extends Component {
     }
 }
 
+class AddressBookSwitch extends Component{
+    render() {
+        return (
+            <div>
+                <Switch>
+                    <Route exact path={"/"} component={AddressBook}/>
+                    <Route path={"/edit"} component={EditContactForm}/>
+                    <Route path={"/new"} component={NewContactForm}/>
+                </Switch>
+            </div>
+        );
+    }
+}
 
-ReactDOM.render( <AddressBook/>, document.getElementById('root'));
+class App extends Component{
+    render() {
+        return (
+            <Router>
+                <Route component={AddressBookSwitch}/>
+            </Router>
+        );
+    }
+}
 
+ReactDOM.render( <App/>, document.getElementById('root'));
+
+export {
+    contactstore,
+    App
+}
 
