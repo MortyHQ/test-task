@@ -1,21 +1,11 @@
 import React, {Component} from 'react';
-import {contactstore} from "./App";
+import {contactstore,Main} from "./App";
 import {db} from "./firestore";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 import {observer} from "mobx-react";
 
 
-const Main = styled.div`
-    width: 400px;
-    margin: 10px;
-    
-    > h4 {
-        font: bold 22px 'Arial';
-        margin-bottom: 20px;
-        text-align: center;
-    }
-`;
 const ClearFix = styled.div`
     &:before,&:after{
      content: " ";
@@ -28,13 +18,15 @@ const ClearFix = styled.div`
 const NameInput = styled.input`
     width: 400px;
     margin-bottom: 20px;
+    margin-left: 90px;
     height: 10px;
     border: 1px solid;
     padding: 5px;
 `;
 const EmailInput = styled.input`
-    margin-bottom: 30px;
     width: 400px;
+    margin-bottom: 30px;
+    margin-left: 90px;
     height: 10px;
     border: 1px solid;
     padding: 5px;
@@ -51,16 +43,17 @@ const Button = styled.button`
 `;
 const Buttons = styled.div`
     width: 220px;
-    padding-left: 190px;
+    padding-left: 280px;
 `;
 const DeleteButton = styled.button`
+    margin-left: 90px;
+    float: left;
     padding: 10px;
     text-align: center;
-    width: 80px;
+    width: 100px;
     border-radius: 5px;
     background: red;
     color: white;
-    float:left;
 `;
 
 class NewContactForm extends Component{
@@ -88,8 +81,8 @@ class NewContactForm extends Component{
                         <NameInput id={"name"} defaultValue={"Name"}/>
                         <EmailInput id={"email"} defaultValue={"Email"}/>
                         <Buttons>
-                            <Link to={"/"}><Button cancel>Cancel</Button></Link>
-                            <Link to={"/"}><Button ok onClick={AddContact}>OK</Button></Link>
+                            <Link to={"/test-task/"}><Button cancel>Cancel</Button></Link>
+                            <Link to={"/test-task/"}><Button ok onClick={AddContact}>OK</Button></Link>
                         </Buttons>
                     </ClearFix>
                 </Main>
@@ -127,10 +120,10 @@ const EditContactForm = observer(class EditContactForm extends Component{
                     <ClearFix>
                         <NameInput id={"name"} defaultValue={contactstore.contacts[idx].name}/>
                         <EmailInput id={"email"} defaultValue={contactstore.contacts[idx].email}/>
-                        <Link to={"/"}><DeleteButton onClick={deleteContact}>Delete</DeleteButton></Link>
+                        <Link to={"/test-task/"}><DeleteButton onClick={deleteContact}>Delete</DeleteButton></Link>
                         <Buttons>
-                            <Link to={"/"}><Button cancel>Cancel</Button></Link>
-                            <Link to={"/"}><Button ok onClick={onEdit}>Ok</Button></Link>
+                            <Link to={"/test-task/"}><Button cancel>Cancel</Button></Link>
+                            <Link to={"/test-task/"}><Button ok onClick={onEdit}>Ok</Button></Link>
                         </Buttons>
                     </ClearFix>
                 </Main>

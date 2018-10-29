@@ -1,5 +1,6 @@
 {
   "name": "test-task",
+  "homepage": "https://mortyhq.github.io/test-task/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,6 +14,8 @@
     "styled-components": "^4.0.2"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

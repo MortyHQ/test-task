@@ -40,15 +40,18 @@ const Row = styled.div`
     &:last-child{
     border-bottom: none;
     }
+    &:nth-child(2n){
+    background-color: lightgray;    
+    }
 `;
 const SearchBox = styled.div`
     margin-bottom: 10px;
     border: 1px solid;
-    width: 400px;
+    width: 600px;
     font: bold 22px 'Arial';
 `;
 const SearchInput = styled.input`
-        width: 387.437px;
+        width: 587.437px;
         height: 29.6px;
         float: left;
 `;
@@ -60,12 +63,12 @@ const Magnifire = styled.div`
         float:left;
 `;
 const TableContainer = styled.div`
-    width: 400px;
+    width: 600px;
     
 `;
 const Main = styled.div`
-    width: 400px;
-    margin: 10px;
+    width: 600px;
+    margin: 50px auto;
     
     > h4 {
         font: bold 22px 'Arial';
@@ -75,7 +78,7 @@ const Main = styled.div`
 `;
 const Delete = styled.div`
     position: relative;
-    left: 360px;
+    left: 560px;
     top: -20px;
 `;
 const DeleteBtn = styled.button`
@@ -124,7 +127,7 @@ class CreationButton extends Component{
         return (
             <Create>
                 <div>
-                    <StyledLink to={"/new"}>
+                    <StyledLink to={"/test-task/new"}>
                         <h3> + </h3>
                     </StyledLink>
                 </div>
@@ -162,7 +165,7 @@ const TableRow = observer(class TableRow extends Component{
                     <div>
                         <Name>
                             <StyledLink to={{
-                                pathname: "/edit",
+                                pathname: "/test-task/edit",
                                 state: {
                                     idx: idx
                                 }}}>
@@ -253,9 +256,9 @@ class AddressBookSwitch extends Component{
         return (
             <div>
                 <Switch>
-                    <Route exact path={"/"} component={AddressBook}/>
-                    <Route path={"/edit"} component={EditContactForm}/>
-                    <Route path={"/new"} component={NewContactForm}/>
+                    <Route exact path={"/test-task/"} component={AddressBook}/>
+                    <Route path={"/test-task/edit"} component={EditContactForm}/>
+                    <Route path={"/test-task/new"} component={NewContactForm}/>
                 </Switch>
             </div>
         );
@@ -274,5 +277,6 @@ class App extends Component{
 
 export default App;
 export {
-    contactstore
+    contactstore,
+    Main
 };
