@@ -2,7 +2,7 @@ import * as mobx from "mobx";
 import {observable, decorate} from "mobx";
 import {db} from "./firestore";
 
-export  class ObservableContactsStore {
+ class ObservableContactsStore {
     contacts = [];
 
     constructor() {
@@ -28,3 +28,5 @@ export  class ObservableContactsStore {
 decorate(ObservableContactsStore,{
     contacts:observable
 });
+
+export default ObservableContactsStore;

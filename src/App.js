@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {observer} from "mobx-react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styled from "styled-components";
-import {ObservableContactsStore} from "./ObservableContactsStore";
-import {NewContactForm,EditContactForm} from "./New(Edit)Contact";
+import {NewContactForm} from "./NewContact";
+import EditContactForm from "./EditContact";
 import {db} from "./firestore";
+import ObservableContactsStore from "./ObservableContactsStore";
 
 
 const contactstore = new ObservableContactsStore();
@@ -158,6 +159,7 @@ const TableRow = observer(class TableRow extends Component{
     render() {
         const {store, idx} = this.props;
 
+
         return (
             <Row>
                 <ClearFix>
@@ -187,31 +189,22 @@ const TableRow = observer(class TableRow extends Component{
 
 class Search extends Component{
     render() {
-        const {store, result} = this.props;
-
+       let lookFor =  this.props.lookFor;
         return (
             <SearchBox>
                 <ClearFix>
                 <Magnifire className={"left"}>
                     &#9906;
                 </Magnifire>
-                <SearchInput type={"text"} onClick={setupStarter}/>
+                <SearchInput type={"text"} onClick={setupStarter} placeholder={'Search'}/>
                 </ClearFix>
             </SearchBox>
         );
 
         function setupUpdater(){
-            let input=document.getElementsByTagName('input')[0]
-                , timeout=null;
+            let input = document.getElementsByTagName('input')[0], timeout=null;
             function handleChange(){
-                result.contacts.splice(0,result.contacts.length);
-                store.contacts.filter(value =>{
-                    if ((value.name.indexOf(input.value) >= 0) || (value.email.indexOf(input.value) >= 0)){
-                        result.addContacts(value.name,value.email,value.docRefId);
-                        //TODO: Visualisation of search results.
-                    }
-                    return 0;
-                })
+                lookFor(input.value);
             }
             function eventHandler(){
                 if(timeout) clearTimeout(timeout);
@@ -227,9 +220,10 @@ class Search extends Component{
 }
 
 const Table = observer(class Table extends Component{
-    render() {
-        const store = this.props.store;
 
+    render() {
+
+        const store = this.props.store;
         return (
             <TableContainer>
                 {store.contacts.map((value, index) => <TableRow key={index} store={store} idx={index}/>)}
@@ -238,18 +232,36 @@ const Table = observer(class Table extends Component{
     }
 });
 
-class AddressBook extends Component {
+const AddressBook = observer(class AddressBook extends Component {
+
+    state = {
+        lookingFor : ""
+    };
+
+    lookFor = (value) => {
+        this.setState({
+            lookingFor : value
+        });
+        searchstore.contacts = contactstore.contacts.filter((contact) => {
+            return contact.name.indexOf(this.state.lookingFor) > -1 || contact.email.indexOf(this.state.lookingFor) > -1
+
+        });
+
+    };
+
+
     render() {
+
         return (
             <Main>
-                <h4>My Address Book</h4>
-                <Search store = {contactstore} result = {searchstore}/>
-                <Table store = {contactstore}/>
-                <CreationButton store = {contactstore}/>
+                    <h4>My Address Book</h4>
+                    <Search lookFor={this.lookFor}/>
+                    <Table store = {(this.state.lookingFor !== "")?searchstore:contactstore}/>
+                    <CreationButton store = {contactstore}/>
             </Main>
         );
     }
-}
+});
 
 class AddressBookSwitch extends Component{
     render() {
@@ -257,8 +269,8 @@ class AddressBookSwitch extends Component{
             <div>
                 <Switch>
                     <Route exact path={"/test-task/"} component={AddressBook}/>
-                    <Route path={"/test-task/edit"} component={EditContactForm}/>
-                    <Route path={"/test-task/new"} component={NewContactForm}/>
+                    <Route key={1} path={"/test-task/edit"} component={EditContactForm}/>
+                    <Route key={2} path={"/test-task/new"} component={NewContactForm}/>
                 </Switch>
             </div>
         );
@@ -278,5 +290,5 @@ class App extends Component{
 export default App;
 export {
     contactstore,
-    Main
+    Main,
 };
