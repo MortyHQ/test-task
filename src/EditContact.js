@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import {contactstore, Main} from "./App";
 import {db} from "./firestore";
+import {setupStarter} from "./FieldsCheck";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 
@@ -56,25 +57,30 @@ const DeleteButton = styled.button`
 
 
 class EditContactForm extends Component {
+    componentDidMount(){
+        if(document.getElementById('email').value === "" || document.getElementById('name').value === ""){
+            document.getElementById("OK").disabled = true;
+            document.getElementById("OK").style = "background: none; border: 1px black solid; color: black;";
+        }
+    }
 
     render() {
         const idx = this.props.location.state.idx;
 
 
-        //TODO:Fix-bug-with-deleting
         return (
             <Main>
                 <h4>My Address Book/Edit contact</h4>
                 <Main>
                     <ClearFix>
                         <NameInput id={"name"} defaultValue={contactstore.contacts[idx].name}/>
-                        <EmailInput id={"email"} defaultValue={contactstore.contacts[idx].email}/>
+                        <EmailInput id={"email"} defaultValue={contactstore.contacts[idx].email} onClick={setupStarter}/>
                         <Link to={{
                             pathname: "/test-task/",
                         }}><DeleteButton onClick={() => this.delete(idx)}>Delete</DeleteButton></Link>
                         <Buttons>
                             <Link to={"/test-task/"}><Button cancel>Cancel</Button></Link>
-                            <Link to={"/test-task/"}><Button ok onClick={() => this.onEdit(idx)}>Ok</Button></Link>
+                            <Link to={"/test-task/"}><Button ok onClick={() => this.onEdit(idx)} id={"OK"}>Ok</Button></Link>
                         </Buttons>
                     </ClearFix>
                 </Main>

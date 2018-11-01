@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {contactstore,Main} from "./App";
 import {db} from "./firestore";
+import {setupStarter} from "./FieldsCheck";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 
@@ -46,8 +47,18 @@ const Buttons = styled.div`
     padding-left: 280px;
 `;
 
+
 class NewContactForm extends Component{
+
+    componentDidMount(){
+        if(document.getElementById('email').value === "" || document.getElementById('name').value === ""){
+            document.getElementById("OK").disabled = true;
+            document.getElementById("OK").style = "background: none; border: 1px black solid; color: black;";
+        }
+    }
+
     render() {
+
         function AddContact() {
             var newName =  document.getElementById("name").value;
             var newEmail = document.getElementById("email").value;
@@ -59,7 +70,7 @@ class NewContactForm extends Component{
                 contactstore.addContacts(newName,newEmail,docRef.id);
             })
                 .catch(function(error) {
-                    console.error("Error adding document: ", error);
+                    console.log("Error adding document: ", error);
                 });
         }
 
@@ -68,11 +79,11 @@ class NewContactForm extends Component{
                 <h4>My Address Book/New contact</h4>
                 <Main>
                     <ClearFix>
-                        <NameInput id={"name"} defaultValue={"Name"}/>
-                        <EmailInput id={"email"} defaultValue={"Email"}/>
+                        <NameInput id={"name"} placeholder={"Name"}/>
+                        <EmailInput id={"email"} placeholder={"Email"} onClick={setupStarter} />
                         <Buttons>
                             <Link to={"/test-task/"}><Button cancel>Cancel</Button></Link>
-                            <Link to={"/test-task/"}><Button ok onClick={AddContact}>OK</Button></Link>
+                            <Link to={"/test-task/"}><Button ok onClick={AddContact} id={"OK"}>OK</Button></Link>
                         </Buttons>
                     </ClearFix>
                 </Main>
