@@ -12,13 +12,6 @@ import {db} from "./firestore";
                     this.addContacts(doc.data().name,doc.data().email,doc.id)
                 });
             });
-            this.addContacts("Test","email@email.com","agsgasgas")
-            this.addContacts("Test","email@email.com","agsgasgas")
-            this.addContacts("Test","email@email.com","agsgasgas")
-            this.addContacts("Test","email@email.com","agsgasgas")
-            this.addContacts("Test","email@email.com","agsgasgas")
-            this.addContacts("Test","email@email.com","agsgasgas")
-            this.addContacts("Test","email@email.com","agsgasgas")
         })
     }
 
