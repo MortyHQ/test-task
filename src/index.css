@@ -1,6 +1,8 @@
 html {
+    font-size: 17px;
     height: 100%;
 }
+
 
 ol, ul {
     list-style: none;
@@ -17,4 +19,9 @@ body {
     background-color: #ffffff;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+}
+#root{
+    width: 100%;
 }

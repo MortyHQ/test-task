@@ -19,6 +19,7 @@ const Create = styled.div`
         cursor: pointer;
         text-align: center;
         border: 1px solid;
+        width: 100%;
 `;
 const ClearFix = styled.div`
     &:before,&:after{
@@ -30,8 +31,9 @@ const ClearFix = styled.div`
      }
 `;
 const Row = styled.div`
-    border: 1px solid;
-    padding: 5px;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    padding: 0.52%;
     &:first-child{
     border-bottom: none;
     }
@@ -44,17 +46,19 @@ const Row = styled.div`
     &:nth-child(2n){
     background-color: lightgray;    
     }
+    height: 40px
 `;
 const SearchBox = styled.div`
-    margin-bottom: 10px;
+    margin-bottom: 1.4%;
     border: 1px solid;
-    width: 600px;
-    font: bold 22px 'Arial';
+    width: 100%;
+    font: bold 22px 'Arial';   
 `;
 const SearchInput = styled.input`
-        width: 587.437px;
+        width: 90%;
         height: 29.6px;
         float: left;
+        outline: none;
 `;
 const Magnifire = styled.div`
         -webkit-transform: rotate(-45deg);
@@ -62,25 +66,33 @@ const Magnifire = styled.div`
         -o-transform: rotate(-45deg);
         transform: rotate(-45deg);
         float:left;
+        margin: 0 0.52% 0 2px;
 `;
 const TableContainer = styled.div`
-    width: 600px;
-    
+    width: 100%;
+    border-left:1px solid;
+    border-right:1px solid;
 `;
 const Main = styled.div`
-    width: 600px;
-    margin: 50px auto;
-    
+    width: 50%;
+    margin: 3% auto;
     > h4 {
         font: bold 22px 'Arial';
         margin-bottom: 10px;
-        text-align: center;
+        text-align: left;
+    }
+    @media (max-width: 720px){
+        width: 250px
+    }
+    @media (min-width: 1280px){
+        width: 640px
     }
 `;
 const Delete = styled.div`
+    width: fit-content;
     position: relative;
-    left: 560px;
-    top: -20px;
+    right: -95%;
+    top: -27.5px;
 `;
 const DeleteBtn = styled.button`
     background: none;
@@ -120,6 +132,10 @@ const StyledLink = styled(Link)`
     text-decoration:none;
     color: black;
 `;
+const StyledMail = styled.a`
+    text-decoration:none;
+    color: black;
+`;
 
 
 
@@ -127,11 +143,9 @@ class CreationButton extends Component{
     render() {
         return (
             <Create>
-                <div>
-                    <StyledLink to={"/test-task/new"}>
-                        <h3> + </h3>
-                    </StyledLink>
-                </div>
+                <StyledLink to={"/test-task/new"}>
+                    <h3> + </h3>
+                </StyledLink>
             </Create>
         );
     }
@@ -159,7 +173,6 @@ const TableRow = observer(class TableRow extends Component{
     render() {
         const {store, idx} = this.props;
 
-
         return (
             <Row>
                 <ClearFix>
@@ -171,13 +184,13 @@ const TableRow = observer(class TableRow extends Component{
                                 state: {
                                     idx: idx
                                 }}}>
-                                {store.contacts[idx].name}
+                                {(store.contacts[idx].name === "")?"________":store.contacts[idx].name}
                             </StyledLink>
                             <span> click to edit </span>
                         </Name>
                     </div>
                     <div>
-                        <Email>{store.contacts[idx].email}</Email>
+                        <Email><StyledMail href={"mailto:"+store.contacts[idx].email}>{store.contacts[idx].email}</StyledMail></Email>
                     </div>
                 </Contact>
                 </ClearFix>
@@ -266,13 +279,11 @@ const AddressBook = observer(class AddressBook extends Component {
 class AddressBookSwitch extends Component{
     render() {
         return (
-            <div>
                 <Switch>
                     <Route exact path={"/test-task/"} component={AddressBook}/>
                     <Route key={1} path={"/test-task/edit"} component={EditContactForm}/>
                     <Route key={2} path={"/test-task/new"} component={NewContactForm}/>
                 </Switch>
-            </div>
         );
     }
 }

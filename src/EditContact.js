@@ -1,7 +1,6 @@
 import React,{Component} from "react";
 import {contactstore, Main} from "./App";
 import {db} from "./firestore";
-import {setupStarter} from "./FieldsCheck";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 
@@ -15,53 +14,90 @@ const ClearFix = styled.div`
      }
 `;
 const NameInput = styled.input`
-    width: 400px;
-    margin-bottom: 20px;
-    margin-left: 90px;
+    width: 80%;
+    margin 10px auto;
     height: 10px;
     border: 1px solid;
     padding: 5px;
+    outline: none;
 `;
 const EmailInput = styled.input`
-    width: 400px;
-    margin-bottom: 30px;
-    margin-left: 90px;
+    width: 80%;
+    margin 10px auto 20px;
     height: 10px;
     border: 1px solid;
     padding: 5px;
+    outline: none;
 `;
 const Button = styled.button`
-    background: ${props => props.ok ? "green" : "white"};
-    color: ${props => props.ok ? "white" : "black"};
-    border: ${props => props.cancel ? "1px solid" : "none"}
+    background: ${props => props.ok ? props => props.disabled ? "white" : "green": "white"};
+    color: ${props => props.ok ? props => props.disabled ? "black" : "white" : "black"};
+    border: ${props => props.cancel ? "1px solid" : props => props.disabled ? "1px solid" : "none"}
     padding: 10px;
     text-align: center;
     width: 100px;
-    ${props => props.ok ? "margin-left: 10px" : "margin-right: 10px"};
+    margin-top: 10px;
+    margin-left: 10px;
     border-radius: 5px;
+    cursor: pointer;
+    @media (max-width: 720px){
+      margin-left: ${props => props.ok ? "0":"10px"};
+    }
 `;
 const Buttons = styled.div`
-    width: 220px;
-    padding-left: 280px;
+    margin-left:0;
+    width: 100%
+    @media (max-width: 720px){
+      width: fit-content;
+    }
 `;
 const DeleteButton = styled.button`
-    margin-left: 90px;
-    float: left;
     padding: 10px;
     text-align: center;
     width: 100px;
     border-radius: 5px;
     background: red;
     color: white;
+    cursor: pointer;
+    margin-right:28%;
+    @media (min-width: 721px),(max-width: 990){
+      margin-right:15%;
+    }
+    @media (min-width: 991px),(max-width: 1279){
+      margin-right:20%;
+    }
+    @media (min-width: 1280px),(max-width: 1959){
+      margin-right:32%;
+    }
+    @media (max-width: 720px){
+      margin-right:0;
+    }
+`;
+const StyledLink = styled(Link)`
+    cursor:default;
 `;
 
 
 class EditContactForm extends Component {
-    componentDidMount(){
-        if(document.getElementById('email').value === "" || document.getElementById('name').value === ""){
-            document.getElementById("OK").disabled = true;
-            document.getElementById("OK").style = "background: none; border: 1px black solid; color: black;";
+    constructor(props) {
+        super(props);
+
+        this.state={
+            email:true,
+            name:true
         }
+    }
+    validateEmail(email) {
+        var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        this.setState({
+            email:regex.test(email)
+        });
+    }
+    checkName(name) {
+        var regex = /\S+/;
+        this.setState({
+            name:regex.test(name)
+        });
     }
 
     render() {
@@ -71,19 +107,15 @@ class EditContactForm extends Component {
         return (
             <Main>
                 <h4>My Address Book/Edit contact</h4>
-                <Main>
                     <ClearFix>
-                        <NameInput id={"name"} defaultValue={contactstore.contacts[idx].name}/>
-                        <EmailInput id={"email"} defaultValue={contactstore.contacts[idx].email} onClick={setupStarter}/>
-                        <Link to={{
-                            pathname: "/test-task/",
-                        }}><DeleteButton onClick={() => this.delete(idx)}>Delete</DeleteButton></Link>
+                        <NameInput id={"name"} defaultValue={contactstore.contacts[idx].name} onInput={() => this.checkName(document.getElementById('name').value)}/>
+                        <EmailInput id={"email"} defaultValue={contactstore.contacts[idx].email} onInput={() => this.validateEmail(document.getElementById('email').value)}/>
                         <Buttons>
-                            <Link to={"/test-task/"}><Button cancel>Cancel</Button></Link>
-                            <Link to={"/test-task/"}><Button ok onClick={() => this.onEdit(idx)} id={"OK"}>Ok</Button></Link>
+                            <StyledLink to={"/test-task/"}><DeleteButton onClick={() => this.delete(idx)}>Delete</DeleteButton></StyledLink>
+                            <StyledLink to={"/test-task/"}><Button cancel>Cancel</Button></StyledLink>
+                            <StyledLink to={"/test-task/"}><Button ok onClick={() => this.onEdit(idx)} id={"OK"} disabled={!this.state.name || !this.state.email}>Ok</Button></StyledLink>
                         </Buttons>
                     </ClearFix>
-                </Main>
             </Main>
 
         );
