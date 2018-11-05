@@ -17,6 +17,4 @@ db.settings({
     timestampsInSnapshots: true
 });
 
-export {
-    db
-};
+export default db;

@@ -1,6 +1,6 @@
 import * as mobx from "mobx";
 import {observable, decorate} from "mobx";
-import {db} from "./firestore";
+import db from "./firestore";
 
  class ObservableContactsStore {
     contacts = [];

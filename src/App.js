@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {observer} from "mobx-react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styled from "styled-components";
-import {NewContactForm} from "./NewContact";
+import NewContactForm from "./NewContact";
 import EditContactForm from "./EditContact";
-import {db} from "./firestore";
+import db from "./firestore";
 import ObservableContactsStore from "./ObservableContactsStore";
 
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {contactstore,Main} from "./App";
-import {db} from "./firestore";
+import db from "./firestore";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 
@@ -19,7 +19,7 @@ const NameInput = styled.input`
     width: 80%;
     margin 10px auto;
     height: 10px;
-    border: 1px solid;
+    border: 1px solid ${props => props.correct? "black" : "red"};
     padding: 5px;
     outline: none;
 `;
@@ -27,7 +27,7 @@ const EmailInput = styled.input`
     width: 80%;
     margin 10px auto 20px;
     height: 10px;
-    border: 1px solid;
+    border: 1px solid ${props => props.correct? "black" : "red"};
     padding: 5px;
     outline: none;
 `;
@@ -56,7 +56,7 @@ const Buttons = styled.div`
 const StyledLink = styled(Link)`
     cursor:default;
 `;
-
+let correct = {name: true, email: true};
 
 class NewContactForm extends Component{
 
@@ -65,23 +65,26 @@ class NewContactForm extends Component{
 
         this.state={
             email:false,
-            name:false
+            name:false,
+            correctemail:true,
+            correctname:true,
         }
     }
     validateEmail(email) {
-        var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}]])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         this.setState({
-            email:regex.test(email)
+            email:regex.test(email),
+            correctemail:regex.test(email)
         });
     }
     checkName(name) {
         var regex = /\S+/;
             this.setState({
-            name:regex.test(name)
+            name:regex.test(name),
+                correctname:regex.test(name)
         });
     }
     render() {
-
 
         function AddContact() {
             var newName =  document.getElementById("name").value;
@@ -102,8 +105,8 @@ class NewContactForm extends Component{
             <Main >
                 <h4>My Address Book/New contact</h4>
                     <ClearFix>
-                        <NameInput id={"name"} placeholder={"Name"} onInput={() => this.checkName(document.getElementById('name').value)}/>
-                        <EmailInput id={"email"} placeholder={"Email"} onInput={() => this.validateEmail(document.getElementById('email').value)}/>
+                        <NameInput id={"name"} placeholder={"Name"} correct={this.state.correctname} onInput={() => this.checkName(document.getElementById('name').value)}/>
+                        <EmailInput id={"email"} placeholder={"Email"} correct={this.state.correctemail} onInput={() => this.validateEmail(document.getElementById('email').value)}/>
                         <Buttons id={"Buttons"}>
                                 <StyledLink to={"/test-task/"}><Button cancel>Cancel</Button></StyledLink>
                                 <StyledLink to={"/test-task/"}><Button ok onClick={AddContact} disabled={!this.state.name || !this.state.email} id={"OK"}>OK</Button></StyledLink>
@@ -116,6 +119,4 @@ class NewContactForm extends Component{
 }
 
 
-export {
-    NewContactForm
-}
+export default NewContactForm;
