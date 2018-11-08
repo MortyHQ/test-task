@@ -29,4 +29,4 @@ decorate(ObservableContactsStore,{
     contacts:observable
 });
 
-export default ObservableContactsStore;
+export {ObservableContactsStore};
