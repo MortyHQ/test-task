@@ -1,13 +1,14 @@
 {
-  "main.css": "/test-task/static/css/main.4002a3f4.chunk.css",
-  "main.js": "/test-task/static/js/main.2d8ad525.chunk.js",
-  "main.js.map": "/test-task/static/js/main.2d8ad525.chunk.js.map",
-  "static/js/1.4bd71ecc.chunk.js": "/test-task/static/js/1.4bd71ecc.chunk.js",
-  "static/js/1.4bd71ecc.chunk.js.map": "/test-task/static/js/1.4bd71ecc.chunk.js.map",
+  "main.css": "/test-task/static/css/main.8b646124.chunk.css",
+  "main.js": "/test-task/static/js/main.02755857.chunk.js",
+  "main.js.map": "/test-task/static/js/main.02755857.chunk.js.map",
+  "static/js/1.8ff5f062.chunk.js": "/test-task/static/js/1.8ff5f062.chunk.js",
+  "static/js/1.8ff5f062.chunk.js.map": "/test-task/static/js/1.8ff5f062.chunk.js.map",
   "runtime~main.js": "/test-task/static/js/runtime~main.a792770b.js",
   "runtime~main.js.map": "/test-task/static/js/runtime~main.a792770b.js.map",
-  "static/css/main.4002a3f4.chunk.css.map": "/test-task/static/css/main.4002a3f4.chunk.css.map",
+  "static/media/if_-_Magnifier-Search-Zoom-_3844467.svg": "/test-task/static/media/if_-_Magnifier-Search-Zoom-_3844467.2e59eb71.svg",
+  "static/css/main.8b646124.chunk.css.map": "/test-task/static/css/main.8b646124.chunk.css.map",
   "index.html": "/test-task/index.html",
-  "precache-manifest.25034f897b221c03b008c959509d8d5b.js": "/test-task/precache-manifest.25034f897b221c03b008c959509d8d5b.js",
+  "precache-manifest.e8439dc4e65a2b3a495056db52d1ac78.js": "/test-task/precache-manifest.e8439dc4e65a2b3a495056db52d1ac78.js",
   "service-worker.js": "/test-task/service-worker.js"
 }
