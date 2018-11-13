@@ -4,6 +4,7 @@ import styled from "styled-components";
 import CreationButton from "./CreationButton";
 import {Search} from "./Search";
 import Table from "./Table";
+import db from "./firestore";
 
 const Main = styled.div`
     width: 50%;
@@ -22,7 +23,15 @@ const Main = styled.div`
 `;
 
 
-const AddressBook = inject("store","result")(observer(class AddressBook extends Component {
+const AddressBook = inject("store")(observer(class AddressBook extends Component {
+    componentDidMount(){
+        db.collection("contacts").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                this.props.store.addContacts(doc.data().name,doc.data().email,doc.id)
+            });
+        });
+    }
+
 
     state = {
         lookingFor : ""
@@ -46,9 +55,7 @@ const AddressBook = inject("store","result")(observer(class AddressBook extends 
             <Main>
                 <h4>My Address Book</h4>
                 <Search lookFor={this.lookFor}/>
-                <Provider store = {(this.state.lookingFor !== "")?this.props.result:this.props.store}>
                     <Table/>
-                </Provider>
                 <CreationButton/>
             </Main>
         );

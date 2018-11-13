@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import styled from "styled-components";
-import AddressBookSwitch from "./AddressBookSwitch"
 import {ObservableContactsStore} from "./ObservableContactsStore";
 import {Provider} from "mobx-react";
+import AddressBook from "./AddressBook";
+import {EditContactForm, NewContactForm} from "./ContactForm";
 
 
 const contactstore = new ObservableContactsStore();
@@ -28,9 +29,13 @@ const Main = styled.div`
 class App extends Component{
     render() {
         return (
-            <Provider store={contactstore} result={searchstore}>
+            <Provider store={contactstore}>
                 <Router>
-                    <Route component={AddressBookSwitch}/>
+                    <Switch>
+                        <Route exact path={"/test-task/"} component={AddressBook}/>
+                        <Route path={"/test-task/edit"} component={EditContactForm}/>
+                        <Route path={"/test-task/new"} component={NewContactForm}/>
+                    </Switch>
                 </Router>
             </Provider>
         );

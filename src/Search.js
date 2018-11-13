@@ -33,7 +33,7 @@ const ClearFix = styled.div`
 `;
 
 
-export const Search = inject("store","result")(class Search extends Component{
+export const Search = inject("store")(class Search extends Component{
     render() {
         let lookFor =  this.props.lookFor;
         return (
