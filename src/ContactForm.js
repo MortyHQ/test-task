@@ -83,7 +83,7 @@ const DeleteButton = styled.button`
     }
 `;
 
-const EditContactForm = inject("store")(class EditContactForm extends Component {
+@inject("store") class EditContactForm extends Component {
     constructor(props) {
         super(props);
 
@@ -128,7 +128,7 @@ const EditContactForm = inject("store")(class EditContactForm extends Component 
 
         );
     }
-});
+}
 
 class NewContactForm extends Component{
 

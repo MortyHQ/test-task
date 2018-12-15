@@ -15,8 +15,7 @@ const DeleteBtn = styled.button`
 `;
 
 
-inject("store");
-export default class DeleteButton extends Component {
+@inject("store") class DeleteButton extends Component {
     render() {
         const {store, idx} = this.props;
         const docRefId = store.contacts[idx].docRefId;
@@ -30,3 +29,4 @@ export default class DeleteButton extends Component {
         );
     }
 }
+export default DeleteButton;

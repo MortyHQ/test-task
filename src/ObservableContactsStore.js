@@ -1,7 +1,7 @@
-import {observable, decorate} from "mobx";
+import {observable} from "mobx";
 
  class ObservableContactsStore {
-    contacts = [];
+   @observable contacts = [];
 
     addContacts(name,email,docRefId){
         this.contacts.push({
@@ -13,8 +13,5 @@ import {observable, decorate} from "mobx";
 
 
 }
-decorate(ObservableContactsStore,{
-    contacts:observable
-});
 
 export {ObservableContactsStore};

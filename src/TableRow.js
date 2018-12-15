@@ -71,7 +71,7 @@ const StyledMail = styled.a`
     color: black;
 `;
 
-const TableRow = inject("store")(observer(class TableRow extends Component{
+@inject("store") @observer class TableRow extends Component{
     render() {
         const {store, idx} = this.props;
 
@@ -101,5 +101,5 @@ const TableRow = inject("store")(observer(class TableRow extends Component{
             </Row>
         );
     }
-}));
+}
 export default TableRow;

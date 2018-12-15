@@ -1,4 +1,4 @@
-import {inject, observer, Provider} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import React,{Component} from "react";
 import styled from "styled-components";
 import CreationButton from "./CreationButton";
@@ -23,7 +23,7 @@ const Main = styled.div`
 `;
 
 
-const AddressBook = inject("store")(observer(class AddressBook extends Component {
+@inject("store") @observer class AddressBook extends Component {
     componentDidMount(){
         db.collection("contacts").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -60,5 +60,5 @@ const AddressBook = inject("store")(observer(class AddressBook extends Component
             </Main>
         );
     }
-}));
+}
 export default AddressBook;

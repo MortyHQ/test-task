@@ -9,7 +9,7 @@ const TableContainer = styled.div`
     border-right:1px solid;
 `;
 
-const Table = inject("store")(observer(class Table extends Component{
+@inject("store") @observer class Table extends Component{
 
     render() {
 
@@ -20,5 +20,5 @@ const Table = inject("store")(observer(class Table extends Component{
             </TableContainer>
         );
     }
-}));
+}
 export default Table;

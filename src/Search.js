@@ -33,7 +33,7 @@ const ClearFix = styled.div`
 `;
 
 
-export const Search = inject("store")(class Search extends Component{
+@inject("store") class Search extends Component{
     render() {
         let lookFor =  this.props.lookFor;
         return (
@@ -63,4 +63,8 @@ export const Search = inject("store")(class Search extends Component{
             document.getElementsByTagName('input')[0].focus();
         }
     }
-});
+}
+
+export {
+    Search
+};
