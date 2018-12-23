@@ -6,6 +6,13 @@
 # testing
 /coverage
 
+# configs
+/config
+/.idea
+
+# scripts
+/scripts
+
 # production
 /build
 
