@@ -35,9 +35,6 @@ function AddContact() {
         name: newName,
         email: newEmail
     })
-        .then(function (docRef) {
-            contactstore.addContacts(newName,newEmail,docRef.id);
-        })
         .catch(function(error) {
             console.log("Error adding document: ", error);
         });

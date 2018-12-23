@@ -58,7 +58,7 @@ const ClearFix = styled.div`
             }
             input.onkeyup = eventHandler;
         }
-        function setupStarter() {
+        function setupStarter(){
             setupUpdater();
             document.getElementsByTagName('input')[0].focus();
         }

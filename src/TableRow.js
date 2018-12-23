@@ -1,4 +1,4 @@
-import {inject, observer} from "mobx-react";
+import {observer} from "mobx-react";
 import React,{Component} from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
@@ -71,9 +71,9 @@ const StyledMail = styled.a`
     color: black;
 `;
 
-@inject("store") @observer class TableRow extends Component{
+@observer class TableRow extends Component{
     render() {
-        const {store, idx} = this.props;
+        const {idx, value} = this.props;
 
         return (
             <Row>
@@ -85,19 +85,19 @@ const StyledMail = styled.a`
                                     pathname: "/test-task/edit",
                                     state: {
                                         idx: idx,
-                                        docRefId: store.contacts[idx].docRefId
+                                        docRefId: value.docRefId
                                     }}}>
-                                    {(store.contacts[idx].name === "")?"________":store.contacts[idx].name}
+                                    {(value.name === "")?"________":value.name}
                                 </StyledLink>
                                 <span> click to edit </span>
                             </Name>
                         </div>
                         <div>
-                            <Email><StyledMail href={"mailto:"+store.contacts[idx].email}>{store.contacts[idx].email}</StyledMail></Email>
+                            <Email><StyledMail href={"mailto:"+value.email}>{value.email}</StyledMail></Email>
                         </div>
                     </Contact>
                 </ClearFix>
-                <DeleteButton store = {store} idx={idx}/>
+                <DeleteButton docRef = {value.docRefId} idx={idx}/>
             </Row>
         );
     }

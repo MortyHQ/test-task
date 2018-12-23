@@ -12,11 +12,11 @@ const TableContainer = styled.div`
 @inject("store") @observer class Table extends Component{
 
     render() {
-
+        const flag = this.props.flag;
         const store = this.props.store;
         return (
             <TableContainer>
-                {store.contacts.map((value, index) => <TableRow key={index} idx={index}/>)}
+                {((flag)?store.contacts:store.searchResults).map((value, index) => <TableRow key={index} idx={index} value={value}/>)}
             </TableContainer>
         );
     }

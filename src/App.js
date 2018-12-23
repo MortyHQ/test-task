@@ -7,7 +7,6 @@ import AddressBook from "./AddressBook";
 import {EditContactForm, NewContactForm} from "./ContactForm";
 
 const contactstore = new ObservableContactsStore();
-const searchstore = new ObservableContactsStore();
 
 const Main = styled.div`
     width: 50%;
