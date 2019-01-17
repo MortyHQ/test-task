@@ -9,16 +9,17 @@ const TableContainer = styled.div`
     border-right:1px solid;
 `;
 
-@inject("store") @observer class Table extends Component{
+export default
+@inject("contactsStore")
+@observer
+class Table extends Component{
 
     render() {
-        const flag = this.props.flag;
-        const store = this.props.store;
+        const contactsStore = this.props.contactsStore;
         return (
             <TableContainer>
-                {((flag)?store.contacts:store.searchResults).map((value, index) => <TableRow key={index} idx={index} value={value}/>)}
+                {((contactsStore.searchText)?contactsStore.contacts:contactsStore.searchResults).map((value, index) => <TableRow key={index} idx={index} value={value}/>)}
             </TableContainer>
         );
     }
 }
-export default Table;

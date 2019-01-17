@@ -1,7 +1,7 @@
-import React,{Component} from "react";
+import React from "react";
 import styled from "styled-components";
 import magni from "./if_-_Magnifier-Search-Zoom-_3844467.svg";
-import {inject} from "mobx-react";
+// import {inject} from "mobx-react";
 
 const SearchBox = styled.div`
     margin-bottom: 1.4%;
@@ -33,38 +33,34 @@ const ClearFix = styled.div`
 `;
 
 
-@inject("store") class Search extends Component{
-    render() {
-        let lookFor =  this.props.lookFor;
+export default function Search({onChange}){
+    function debounceOnChange(event){
+        return setTimeout(()=> {    onChange(event)}, 500)
+    }
+    //     let lookFor =  this.props.lookFor;
+    // function setupUpdater(){
+    //     let input = document.getElementsByTagName('input')[0], timeout=null;
+    //     function handleChange(){
+    //         lookFor(input.value);
+    //     }
+    //     function eventHandler(){
+    //         if(timeout) clearTimeout(timeout);
+    //         timeout = setTimeout(handleChange, 500);
+    //     }
+    //     input.onkeyup = eventHandler;
+    // }
+    // function setupStarter(){
+    //     setupUpdater();
+    //     document.getElementsByTagName('input')[0].focus();
+    // }
         return (
             <SearchBox>
                 <ClearFix>
                     <Magnifire>
 
                     </Magnifire>
-                    <SearchInput type={"text"} onClick={setupStarter} placeholder={'Search'}/>
+                    <SearchInput type={"text"} onChange={debounceOnChange} placeholder={'Search'}/>
                 </ClearFix>
             </SearchBox>
         );
-
-        function setupUpdater(){
-            let input = document.getElementsByTagName('input')[0], timeout=null;
-            function handleChange(){
-                lookFor(input.value);
-            }
-            function eventHandler(){
-                if(timeout) clearTimeout(timeout);
-                timeout = setTimeout(handleChange, 500);
-            }
-            input.onkeyup = eventHandler;
-        }
-        function setupStarter(){
-            setupUpdater();
-            document.getElementsByTagName('input')[0].focus();
-        }
-    }
 }
-
-export {
-    Search
-};

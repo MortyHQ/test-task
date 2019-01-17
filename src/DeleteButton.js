@@ -15,10 +15,10 @@ const DeleteBtn = styled.button`
 `;
 
 
-@inject("store") class DeleteButton extends Component {
+@inject("contactsStore") class DeleteButton extends Component {
     render() {
-        const {store, idx} = this.props;
-        const docRefId = store.contacts[idx].docRefId;
+        const {contactsStore, idx} = this.props;
+        const docRefId = contactsStore.contacts[idx].docRefId;
 
 
 

@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import {Main} from "./App";
 import {AddContact,DeleteContact, EditContact} from "./firestore";
-import {Link} from "react-router-dom";
+
 import styled from "styled-components";
 import {inject} from "mobx-react";
+import withRouter from "react-router/es/withRouter";
+
+
 
 
 
@@ -49,9 +52,6 @@ const Buttons = styled.div`
         margin-left:65%
     }
 `;
-const StyledLink = styled(Link)`
-    cursor:default;
-`;
 const EditButtons = styled.div`
     margin-left:0;
     width: 100%
@@ -83,7 +83,7 @@ const DeleteButton = styled.button`
     }
 `;
 
-@inject("store") class EditContactForm extends Component {
+@inject("contactsStore") @withRouter class EditContactForm extends Component {
     constructor(props) {
         super(props);
 
@@ -110,18 +110,19 @@ const DeleteButton = styled.button`
     }
     render() {
         const {idx,docRefId} = this.props.location.state;
-        const contactstore = this.props.store;
+        const {contactsStore,history} = this.props;
+
 
         return (
             <Main>
                 <h4>My Address Book / Edit contact</h4>
                 <ClearFix>
-                    <StyledInput id={"name"} defaultValue={contactstore.contacts[idx].name} correct={this.state.correctname} onInput={() => this.checkName(document.getElementById('name').value)}/>
-                    <StyledInput id={"email"} defaultValue={contactstore.contacts[idx].email} email correct={this.state.correctemail} onInput={() => this.validateEmail(document.getElementById('email').value)}/>
+                    <StyledInput id={"name"} defaultValue={contactsStore.contacts[idx].name} correct={this.state.correctname} onInput={(event) => this.checkName(event.target.value)}/>
+                    <StyledInput id={"email"} defaultValue={contactsStore.contacts[idx].email} email correct={this.state.correctemail} onInput={() => this.validateEmail(document.getElementById('email').value)}/>
                     <EditButtons>
-                        <StyledLink to={"/test-task/"}><DeleteButton onClick={() => DeleteContact(idx,docRefId)}>Delete</DeleteButton></StyledLink>
-                        <StyledLink to={"/test-task/"}><Button cancel>Cancel</Button></StyledLink>
-                        <StyledLink to={"/test-task/"}><Button ok onClick={() => EditContact(idx)} id={"OK"} disabled={!this.state.name || !this.state.email}>Ok</Button></StyledLink>
+                        <DeleteButton onClick={() => {DeleteContact(idx, docRefId).then(() => {history.push("/test-task")})}}>Delete</DeleteButton>
+                        <Button cancel onClick={() => {history.push("/test-task")}}>Cancel</Button>
+                        <Button ok onClick={() => EditContact(idx).then(() => history.push("/test-task"))} id={"OK"} disabled={!this.state.name || !this.state.email}>Ok</Button>
                     </EditButtons>
                 </ClearFix>
             </Main>
@@ -129,12 +130,10 @@ const DeleteButton = styled.button`
         );
     }
 }
-
 class NewContactForm extends Component{
 
     constructor(props) {
         super(props);
-
         this.state={
             email:false,
             name:false,
@@ -157,6 +156,7 @@ class NewContactForm extends Component{
         });
     }
     render() {
+        const history = this.props.history;
         return (
             <Main >
                 <h4>My Address Book / New contact</h4>
@@ -164,8 +164,8 @@ class NewContactForm extends Component{
                         <StyledInput id={"name"} placeholder={"Name"} correct={this.state.correctname} onInput={() => this.checkName(document.getElementById('name').value)}/>
                         <StyledInput id={"email"} placeholder={"Email"} email correct={this.state.correctemail} onInput={() => this.validateEmail(document.getElementById('email').value)}/>
                         <Buttons id={"Buttons"}>
-                                <StyledLink to={"/test-task/"}><Button cancel>Cancel</Button></StyledLink>
-                                <StyledLink to={"/test-task/"}><Button ok onClick={AddContact} disabled={!this.state.name || !this.state.email} id={"OK"}>OK</Button></StyledLink>
+                            <Button cancel onClick={() => {history.push("/test-task")}}>Cancel</Button>
+                            <Button ok onClick={() => AddContact().then(() => {history.push("/test-task")})} disabled={!this.state.name || !this.state.email} id={"OK"}>OK</Button>
                         </Buttons>
                     </ClearFix>
             </Main>
@@ -173,6 +173,7 @@ class NewContactForm extends Component{
         );
     }
 }
+
 
 
 export {

@@ -1,11 +1,10 @@
 import {inject, observer} from "mobx-react";
-import {observable,action} from "mobx";
-import React,{Component} from "react";
+import React,{Component}    from "react";
 import styled from "styled-components";
 import CreationButton from "./CreationButton";
-import {Search} from "./Search";
+import Search from "./Search";
 import Table from "./Table";
-import db from "./firestore";
+import {GetContacts} from "./firestore";
 
 
 const Main = styled.div`
@@ -25,36 +24,27 @@ const Main = styled.div`
 `;
 
 
-@inject("store") @observer class AddressBook extends Component {
-    componentDidMount(){
-        this.props.store.contacts = [];
-        db.collection("contacts").get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                this.props.store.addContacts(doc.data().name,doc.data().email,doc.id)
-            });
-        });
+@inject("contactsStore") @observer class AddressBook extends Component {
+    constructor(props){
+        super(props);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
+    componentDidMount(){
+        GetContacts();
+    }
 
-    @observable
-    lookingFor = "";
-
-   @action lookFor = (value) => {
-        this.lookingFor = value;
-
-        this.props.store.searchResults = this.props.store.contacts.filter((contact) => {
-            return contact.name.indexOf(this.lookingFor) > -1 || contact.email.indexOf(this.lookingFor) > -1
-        });
-    };
-
+    handleSearch(event){
+        this.props.contactsStore.setSearchText(event.target.value);
+    }
 
     render() {
 
         return (
             <Main>
                 <h4>My Address Book</h4>
-                <Search lookFor={this.lookFor}/>
-                    <Table flag={this.lookingFor === ''}/>
+                <Search onChange={this.handleSearch}/>
+                    <Table f/>
                 <CreationButton/>
             </Main>
         );

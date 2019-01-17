@@ -6,7 +6,7 @@ import {Provider} from "mobx-react";
 import AddressBook from "./AddressBook";
 import {EditContactForm, NewContactForm} from "./ContactForm";
 
-const contactstore = new ObservableContactsStore();
+const contactsStore = new ObservableContactsStore();
 
 const Main = styled.div`
     width: 50%;
@@ -27,7 +27,7 @@ const Main = styled.div`
 class App extends Component{
     render() {
         return (
-            <Provider store={contactstore}>
+            <Provider contactsStore={contactsStore}>
                 <Router>
                     <Switch>
                         <Route exact path={"/test-task/"} component={AddressBook}/>
@@ -43,5 +43,5 @@ class App extends Component{
 export default App;
 export {
     Main,
-    contactstore
+    contactsStore
 };

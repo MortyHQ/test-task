@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import {contactstore} from "./App";
+import {contactsStore} from "./App";
 
 var config = {
     apiKey: "AIzaSyCq3TKPzX7Tscb3iHFUYGi1VupDxemijeM",
@@ -19,34 +19,48 @@ db.settings({
 });
 
 function EditContact(idx){
-    contactstore.contacts[idx].name = document.getElementById("name").value;
-    contactstore.contacts[idx].email = document.getElementById("email").value;
-    db.collection("contacts").doc(contactstore.contacts[idx].docRefId).set({
-        name: contactstore.contacts[idx].name,
-        email: contactstore.contacts[idx].email
-    }).catch(function (error) {
-        console.error("Error editing document: ", error);
-    });
+    contactsStore.contacts[idx].name = document.getElementById("name").value;
+    contactsStore.contacts[idx].email = document.getElementById("email").value;
+    return db.collection("contacts").doc(contactsStore.contacts[idx].docRefId).set({
+        name: contactsStore.contacts[idx].name,
+        email: contactsStore.contacts[idx].email
+    }).then(()=> {
+        return new Promise(resolve => {
+            resolve();
+        });
+    },(error)=>{console.error("Error while editing document:" + error)});
 }
 function AddContact() {
     var newName =  document.getElementById("name").value;
     var newEmail = document.getElementById("email").value;
-    db.collection("contacts").add({
+    return db.collection("contacts").add({
         name: newName,
         email: newEmail
-    })
-        .catch(function(error) {
-            console.log("Error adding document: ", error);
-        });
+    }).then(()=> {
+        return new Promise(resolve => resolve())})
 }
 
 function DeleteContact(idx,docRefId) {
-    db.collection("contacts").doc(docRefId).delete();
-    contactstore.contacts.splice(idx, 1);
+    return db.collection("contacts").doc(docRefId).delete().then(() => {
+        contactsStore.contacts.splice(idx, 1);
+        return new Promise((resolve => {
+            resolve();
+        }));
+    });
+}
+
+function GetContacts() {
+    contactsStore.contacts = [];
+    db.collection("contacts").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+           contactsStore.addContacts(doc.data().name,doc.data().email,doc.id)
+        });
+    });
 }
 export default db;
 export {
     EditContact,
     DeleteContact,
-    AddContact
+    AddContact,
+    GetContacts
 }
