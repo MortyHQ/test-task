@@ -14,13 +14,14 @@ const DeleteBtn = styled.button`
     cursor: pointer;
 `;
 
+//TODO: button should not connect to any of the stores. remove contactsStore and simplify - DELETEBUTTON can be simple styled-component there
 
 @inject("contactsStore") class DeleteButton extends Component {
+
+    //TODO:
     render() {
         const {contactsStore, idx} = this.props;
         const docRefId = contactsStore.contacts[idx].docRefId;
-
-
 
         return (
             <Delete>

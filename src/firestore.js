@@ -18,6 +18,8 @@ db.settings({
     timestampsInSnapshots: true
 });
 
+//todo: remove the usage of contactsStore - all the work with store move to the components on (Promise).then
+//todo: function name should be in camelCase, even if they are independent https://github.com/airbnb/javascript
 function EditContact(idx){
     contactsStore.contacts[idx].name = document.getElementById("name").value;
     contactsStore.contacts[idx].email = document.getElementById("email").value;
@@ -25,11 +27,14 @@ function EditContact(idx){
         name: contactsStore.contacts[idx].name,
         email: contactsStore.contacts[idx].email
     }).then(()=> {
+        //todo: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve
         return new Promise(resolve => {
             resolve();
         });
     },(error)=>{console.error("Error while editing document:" + error)});
 }
+
+//todo: the same
 function AddContact() {
     var newName =  document.getElementById("name").value;
     var newEmail = document.getElementById("email").value;
@@ -40,6 +45,7 @@ function AddContact() {
         return new Promise(resolve => resolve())})
 }
 
+//todo: the same
 function DeleteContact(idx,docRefId) {
     return db.collection("contacts").doc(docRefId).delete().then(() => {
         contactsStore.contacts.splice(idx, 1);
@@ -49,6 +55,7 @@ function DeleteContact(idx,docRefId) {
     });
 }
 
+//todo: the same
 function GetContacts() {
     contactsStore.contacts = [];
     db.collection("contacts").get().then((querySnapshot) => {

@@ -83,6 +83,7 @@ const DeleteButton = styled.button`
     }
 `;
 
+//TODO: EditContactForm and NewContactForm do the same functionality. unify this two components in one
 @inject("contactsStore") @withRouter class EditContactForm extends Component {
     constructor(props) {
         super(props);
@@ -117,9 +118,11 @@ const DeleteButton = styled.button`
             <Main>
                 <h4>My Address Book / Edit contact</h4>
                 <ClearFix>
+                    /*TODO: remove ids*/
                     <StyledInput id={"name"} defaultValue={contactsStore.contacts[idx].name} correct={this.state.correctname} onInput={(event) => this.checkName(event.target.value)}/>
                     <StyledInput id={"email"} defaultValue={contactsStore.contacts[idx].email} email correct={this.state.correctemail} onInput={() => this.validateEmail(document.getElementById('email').value)}/>
                     <EditButtons>
+                        /*TODO: onClick handler code should not be in the render part - create handler function*/
                         <DeleteButton onClick={() => {DeleteContact(idx, docRefId).then(() => {history.push("/test-task")})}}>Delete</DeleteButton>
                         <Button cancel onClick={() => {history.push("/test-task")}}>Cancel</Button>
                         <Button ok onClick={() => EditContact(idx).then(() => history.push("/test-task"))} id={"OK"} disabled={!this.state.name || !this.state.email}>Ok</Button>

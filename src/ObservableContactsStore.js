@@ -12,19 +12,16 @@ import {computed, observable, action} from "mobx";
         })
     }
 
-
     @action
      setSearchText(searchText){
         this.searchText = searchText;
     }
 
-
-
     @computed
     get searchResults(){
-        return this.contacts.filter((contact) => {
-                     return contact.name.indexOf(this.searchText) > -1 || contact.email.indexOf(this.searchText) > -1
-                 });
+        return this.searchText
+            ? this.contacts.filter(contact => Object.values(contact).some(value => value.toLowerCase().includes(this.searchText.toLowerCase())))
+            : this.contacts;
     }
 }
 
